@@ -33,6 +33,29 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    // Tambahkan di dalam class User, setelah bagian $hidden
+
+    // Semua progress node milik user ini
+    public function progress()
+    {
+        return $this->hasMany(UserProgress::class);
+    }
+
+    // Progress node yang sudah selesai saja
+    public function completedNodes()
+    {
+        return $this->hasMany(UserProgress::class)
+            ->where('status', 'completed');
+    }
+
+    // Progress node yang sudah terbuka saja
+    public function unlockedNodes()
+    {
+        return $this->hasMany(UserProgress::class)
+            ->whereIn('status', ['unlocked', 'completed']);
+    }
+
+
     /**
      * Get the attributes that should be cast.
      *
