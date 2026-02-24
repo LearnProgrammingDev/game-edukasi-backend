@@ -26,6 +26,7 @@ Route::prefix('v1')->group(function () {
         // Roadmap & Materi
         Route::get('/nodes',      [NodeController::class, 'index']); // Semua node + status
         Route::get('/nodes/{id}', [NodeController::class, 'show']);  // Detail 1 node
+        Route::post('/nodes/{id}/complete', [ProgressController::class, 'completeMateri']);
 
         // Kuis
         Route::post('/quiz/{quizId}/answer', [QuizController::class, 'checkAnswer']);
