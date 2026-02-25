@@ -3,12 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser; // ← tambah
+use Filament\Panel;                          // ← tambah
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser // ← tambah
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
@@ -33,6 +35,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    // Hanya user dengan role admin yang bisa akses panel
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->role === 'admin';
+    }
 
     // Tambahkan di dalam class User, setelah bagian $hidden
 
